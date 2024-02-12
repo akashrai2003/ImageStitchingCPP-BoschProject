@@ -1,0 +1,2 @@
+To run the executable you can open it in a terminal and then:
+.\Project3.exe img3.jpg img1.jpg img4.jpg img2.jpg --features orb --matcher homography --save_graph match.dot

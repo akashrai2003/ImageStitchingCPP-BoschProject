@@ -1,0 +1,91 @@
+Rotation model images stitcher.\n\n"
+        << argv[0] << " img1 img2 [...imgN] [flags]\n\n"
+        "Flags:\n"
+        "  --preview\n"
+        "  --try_cuda (yes|no)\n"
+        "\nMotion Estimation Flags:\n"
+        "  --work_megapix <float>\n"
+        "      The default is 0.6 Mpx.\n"
+        "  --features \n"
+        "      orb by default\n"
+        "  --matcher (homography|affine)\n"
+        "      Matcher used for pairwise image matching.\n"
+        "  --estimator (homography|affine)\n"
+        "      Type of estimator used for transformation estimation.\n"
+        "  --match_conf <float>\n"
+        "      Confidence for feature matching step. The default is 0.65 for surf and 0.3 for orb.\n"
+        "  --conf_thresh <float>\n"
+        "      Threshold for two images are from the same panorama confidence.The default is 1.0.\n"
+        "  --wave_correct (no|horiz|vert)\n"
+        "      Perform wave effect correction. The default is 'horiz'.\n"
+        "  --save_graph <file_name>\n"
+        "      Save matches graph represented in DOT language to <file_name> file.\n"
+        "\nCompositing Flags:\n"
+        "  --warp (affine|plane|cylindrical|spherical\n"
+        "      Warp surface type. The default is 'spherical'.\n"
+        "  --seam_megapix <float>\n"
+        "      Resolution for seam estimation step. The default is 0.1 Mpx.\n"
+        "  --seam (no|voronoi|gc_color|gc_colorgrad)\n"
+        "      Seam estimation method. The default is 'gc_color'.\n"
+        "  --blend (no|feather|multiband)\n"
+        "      Blending method. The default is 'multiband'.\n"
+        "  --blend_strength <float>\n"
+        "      Blending strength from [0,100] range. The default is 5.\n"
+        "  --output <result_img>\n"
+        "      The default is 'result.jpg'.\n";
+
+
+
+
+
+
+
+
+
+
+
+
+Comparing the method of using good features for alignment with pairwise matching depends on the specific requirements and characteristics of the images you are working with, as well as the goals of your image processing task. Both methods have their advantages and use cases:
+
+Good Features + Geometric Transformation:
+Pros:
+
+Distinctive Points: Good features detection focuses on identifying distinctive points, which are often more robust and repeatable across images.
+Explicit Geometric Information: The geometric transformation (e.g., homography) provides explicit information about the spatial relationship between keypoints in different images.
+Robustness: Can handle cases where the images have significant viewpoint changes, rotations, and scaling.
+Cons:
+
+Limited to Detected Features: This method relies on the detected keypoints, and if the features are not well-distributed or sufficient, the alignment might suffer.
+Manual Parameter Tuning: The performance can be sensitive to the parameters of the feature detector and matching algorithm.
+Pairwise Matching:
+Pros:
+
+Flexible Feature Types: Can work with various types of features (e.g., ORB, AKAZE, SIFT) and descriptors.
+Global Consistency: Takes into account information from multiple images simultaneously, potentially leading to more global consistency.
+Works with Any Point: Not limited to specific features; any distinctive point can be used for matching.
+Cons:
+
+Computational Complexity: Pairwise matching across multiple images can be computationally expensive, especially for a large number of images.
+Sensitivity to Outliers: Outliers or incorrect matches can impact the overall alignment.
+Conclusion:
+Choosing Between Methods: The choice between these methods depends on the characteristics of your images and the specific requirements of your task.
+Hybrid Approaches: In practice, a combination of both methods is often used. Detect good features to initialize the alignment, and then refine the alignment using pairwise matching to ensure global consistency.
+Library Support: Popular computer vision libraries like OpenCV provide functions for both good features detection and pairwise matching, allowing you to experiment with and combine these methods based on your needs.
+
+
+
+Comparison:
+Advantages of RANSAC:
+
+Simplicity in implementation.
+Robustness to outliers in feature matching.
+Can handle non-linear transformations.
+Advantages of Camera Estimation and Bundle Adjustment:
+
+Global optimization leads to better overall results.
+Consideration of inter-image constraints improves accuracy.
+Can handle non-linear distortions and lens effects.
+Considerations:
+
+RANSAC is suitable for simpler cases and may be faster.
+Camera estimation and bundle adjustment provide more accurate and globally optimized results but might be computationally more intensive.
